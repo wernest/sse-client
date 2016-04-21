@@ -94,7 +94,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.will.Main</mainClass>
+                            <mainClass>com.will.ServerConnectionThread</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -116,7 +116,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.will.Main</mainClass>
+                                    <mainClass>com.will.ServerConnectionThread</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
