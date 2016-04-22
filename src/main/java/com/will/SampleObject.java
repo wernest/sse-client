@@ -1,7 +1,9 @@
 package com.will;
 
 
-public class SampleObject {
+import java.io.Serializable;
+
+public class SampleObject implements Serializable{
 
   private String name;
   private int age;
@@ -33,4 +35,6 @@ public class SampleObject {
   public void setGreeting(String greeting) {
     this.greeting = greeting;
   }
+
+
 }
