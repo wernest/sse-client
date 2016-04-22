@@ -2,9 +2,7 @@ package com.will;
 
 import org.glassfish.jersey.media.sse.*;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 
 public class ServerConnectionThread extends Thread{
 
@@ -35,6 +33,9 @@ public class ServerConnectionThread extends Thread{
         if (Thread.interrupted()) {
           eventSource.close();
           System.out.println("closed");
+          WebTarget webResource = ClientBuilder.newClient().target(url);
+          Invocation.Builder builder = webResource.request();
+          builder.delete();
         }
       }
     } catch(Exception e) {

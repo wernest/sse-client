@@ -43,6 +43,9 @@ public class Main {
           }
         }
       }.start();
+
+      Thread.sleep(20000);
+      serverConnectionThread.interrupt();
     }catch (Exception e) {
 
     }
