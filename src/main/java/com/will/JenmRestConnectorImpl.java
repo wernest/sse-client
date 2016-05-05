@@ -1,5 +1,8 @@
 package com.will;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -13,13 +16,13 @@ public class JenmRestConnectorImpl {
 
   //Singleton
   private static JenmRestConnectorImpl instance;
-  public static final String updateURL = "https://localhost:8443/jenm-updates/subscribe";
+  public static final String updateURL = "http://localhost:8080/server-sent-events";
   private final  ServerConnectionThread serverConnectionThread;
   public final String subscriptionId;
 
   JenmRestConnectorImpl(){
     this.subscriptionId = ClientBuilder.newClient().target(updateURL).request().get().readEntity(String.class);
-    this.serverConnectionThread = new ServerConnectionThread(updateURL + "/" + subscriptionId);
+    this.serverConnectionThread = new ServerConnectionThread(updateURL + "/updates/" + subscriptionId);
   }
 
   public static JenmRestConnectorImpl getInstance(){
@@ -31,8 +34,15 @@ public class JenmRestConnectorImpl {
 
   public void saveSampleObject(SampleObject data){
     Client client = ClientBuilder.newClient();
-    WebTarget webTarget = client.target("https://localhost:8443/jenm-updates/" + subscriptionId);
+    WebTarget webTarget = client.target(updateURL + "/updates/" + subscriptionId);
     webTarget.request().post(Entity.entity(data, MediaType.APPLICATION_JSON_TYPE), SampleObject.class);
+  }
+
+  public void sendObject(String subscriptionId, SampleObject data){
+    Client client = ClientBuilder.newClient();
+    Gson gson = new GsonBuilder().create();
+    WebTarget webTarget = client.target("http://localhost:8080/rest-event/send/" + subscriptionId);
+    webTarget.request().post(Entity.entity(gson.toJson(data, SampleObject.class), MediaType.APPLICATION_JSON));
   }
 
 }
