@@ -38,11 +38,11 @@ public class JenmRestConnectorImpl {
     webTarget.request().post(Entity.entity(data, MediaType.APPLICATION_JSON_TYPE), SampleObject.class);
   }
 
-  public void sendObject(String subscriptionId, SampleObject data){
+  public void sendObject(String subscriptionId, Object data){
     Client client = ClientBuilder.newClient();
     Gson gson = new GsonBuilder().create();
     WebTarget webTarget = client.target("http://localhost:8080/rest-event/send/" + subscriptionId);
-    webTarget.request().post(Entity.entity(gson.toJson(data, SampleObject.class), MediaType.APPLICATION_JSON));
+    webTarget.request().post(Entity.entity(gson.toJson(data, data.getClass()), MediaType.APPLICATION_JSON));
   }
 
 }
